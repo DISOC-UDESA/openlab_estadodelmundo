@@ -225,6 +225,21 @@ void getData() {
   }
 
   http.end();
+
+  datos.main = "";
+  datos.description = "";
+  datos.temp = -1;
+  datos.feels = -1;
+  datos.temp_min = -1;
+  datos.temp_max = -1;
+  datos.presion = -1;
+  datos.hum = -1;
+  datos.visibilidad = -1;
+  datos.wind_speed = -1;
+  datos.wind_deg = -1;
+  datos.clouds = -1;
+
+
   StaticJsonDocument<1024> doc;
 
   DeserializationError error = deserializeJson(doc, payload);

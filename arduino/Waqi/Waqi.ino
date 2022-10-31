@@ -1,36 +1,35 @@
-//
-
 //Incluimos las librerias que vamos a utilizar.
 #include <Arduino.h>
 #include <WiFi.h>
 #include <WiFiMulti.h>
 #include <HTTPClient.h>
-
 //
-//Definiciones y Variables constantes
 
+//Definiciones y Variables constantes
 #define USE_SERIAL Serial
-#define SSID "frk2018--"
-#define PASSWORD "100381192"
+#define SSID "aqui va el nombre de la red wifi"
+#define PASSWORD "aca va la password"
+#define DelayApi 60000  //expresado en ms.
 
 //Seleccion de Ciudad
-#define Madrid  // Buenos_Aires Madrid Barcelona Bogota México_DF Berlin Paris Qatar
+#define Madrid  // Opciones: Buenos_Aires Madrid Barcelona Bogota México_DF Berlin Paris Qatar
 
-//const String token = "fee493e712c89a1474c13ee3c388c338440e2a6";
-const String appid = "2c5d39580bce43c97cd49465e0988434";
+//Este define nos permite seleccionar que API queremos Usar. WAQI o OpenWeather
+#define OpenWeather
 
+//Segun la api que seleccionemos, tendremos que elegir entre Token(WAQI) o Appid(OpenWeather)
+//const String token = "aca va el token que nos da WAQI";
+const String appid = "aca va el appid que nos da openweather";
+//---------------------------------------------------------------//
 
-#define OpenWeather //WAQI o OpenWeather
 
 #include "api.h"
-
-//
 
 
 //Constructores
 WiFiMulti wifiMulti;
 
-
+unsigned long tiempo_ultima_llamada = 0;
 
 void setup() {
 
@@ -49,10 +48,12 @@ void setup() {
 }
 
 void loop() {
-  // wait for WiFi connection
-  if ((wifiMulti.run() == WL_CONNECTED)) {
-    getData();
+
+  if (tiempo_ultima_llamada + DelayApi < millis()) {
+    if ((wifiMulti.run() == WL_CONNECTED)) {
+      getData();
+      tiempo_ultima_llamada = millis();
+    }
   }
   serialData();
-  delay(60000);
 }
