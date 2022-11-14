@@ -1,3 +1,17 @@
+/*
+Este archivo reemplaza Waqi.ino.
+
+Este código realiza la consulta a una API a elección.
+Imprime todo el payload cuando la consulta es exitosa.
+Imprime la variables "Status" y espera 60 segundos para volver a realizar la consulta.
+
+Ejemplo creado para el OpenLab "¿Cómo estas mundo?" de Diseño Udesa
+Noviembre 2022
+
+*/
+
+
+
 //Incluimos las librerias que vamos a utilizar.
 #include <Arduino.h>
 #include <WiFi.h>
@@ -7,8 +21,8 @@
 
 //Definiciones y Variables constantes
 #define USE_SERIAL Serial
-#define SSID "aqui va el nombre de la red wifi"
-#define PASSWORD "aca va la password"
+#define SSID "redwifi"
+#define PASSWORD "clave_wifi"
 #define DelayApi 60000  //expresado en ms.
 
 //Seleccion de Ciudad
@@ -19,7 +33,7 @@
 
 //Segun la api que seleccionemos, tendremos que elegir entre Token(WAQI) o Appid(OpenWeather)
 //const String token = "aca va el token que nos da WAQI";
-const String appid = "aca va el appid que nos da openweather";
+const String appid = "token_API";
 //---------------------------------------------------------------//
 
 
@@ -53,7 +67,8 @@ void loop() {
     if ((wifiMulti.run() == WL_CONNECTED)) {
       getData();
       tiempo_ultima_llamada = millis();
+      //serialData();
+      USE_SERIAL.println("Status: " + String(datos.main));
     }
   }
-  serialData();
 }
